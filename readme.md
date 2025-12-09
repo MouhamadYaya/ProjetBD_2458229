@@ -1,82 +1,119 @@
-#Description générale (README.md — version simple)
+# Bibliothèque Scolaire
 
-La bibliothèque de l’école devras gérer ses collections (livres, périodiques, ressources numériques),
-ses memebres (étudiants et professeurs) , les emprunts et réservations. Le système doit permettre
-de suivre l’historique des prêts, les retards et les amendes associées.
+## Description du projet
+ce système permettra de gérer la bibliothèque. 
+il pourras tracker tous les livres, magazines et fichiers numériques de la collection,
+savoir qui emprunte quoi, et gérer les retards avec les amendes qui vont avec.
 
-               Objectifs de ma base de données
-Gérer les ouvrages disponibles
-Gérer les membres
-Suivre les emprunts et les retours
-Permettre la réservation d’un ouvrage
-Calculer et enregistrer les amendes en cas de retard
-Produire des statistiques simples (top des livres empruntés)
+### Gestion des documents
+- Garder une liste de tous les ouvrages disponibles (livres physiques, magazines, PDFs, etc.)
+- Savoir ce qui est disponible ou déjà emprunté
+- Organiser tout ça par auteur, titre, année de publication
 
-                Entités principales
-Livre
-Périodique
-Ressource numérique
-Adhérent
-Emprunt
-Réservation
-Amende
+### Gestion des membres
+- Enregistrer les étudiants et les profs qui peuvent emprunter
+- Différencier les types de membres (les profs peuvent garder les livres plus longtemps par exemple)
+
+### Emprunts et retours
+- Enregistrer quand quelqu'un emprunte un document
+- Calculer automatiquement la date de retour prévue
+
+### Système de réservation
+- Permettre de réserver un livre déjà emprunté
+
+### Gestion des amendes
+- Calculer les frais de retard
+- Suivre qui doit combien
+
+### Statistiques
+- Voir quels sont les livres les plus populaires
+- Savoir combien de livres sont empruntés en ce moment
+
+## Les principales tables de la base de données
+- **TypeMembre** : Étudiant ou professeur (avec durée d'emprunt différente)
+- **Membre** : Les personnes inscrites à la bibliothèque
+- **Auteur** : Les auteurs des documents
+- **Document** : Tous les ouvrages (livres, magazines, etc.)
+- **RessourceNumerique** : Infos spécifiques pour les fichiers numériques
+- **Emprunt** : Qui a emprunté quoi et quand
+- **Reservation** : Les réservations en attente
+- **Amende** : Les frais de retard à payer
             
-                 Modele logique
+                 # Modele logique
 @startuml
-Entity Livre {
+Entity Membre {
 * id : integer
   --
-  titre : string
-  auteur : string
-  annee : integer
+  nom : varchar
+  prenom : varchar
+  telephone : varchar
+  date_inscription : date
   }
 
-Entity Periodique {
+Entity TypeMembre {
 * id : integer
   --
-  titre : string
-  date_publication : date
+  duree_emprunt_jours : integer
+  description : varchar
+  }
+
+Entity Document {
+* id : integer
+  --
+  titre : varchar
+  type : varchar
+  annee : integer
   }
 
 Entity RessourceNumerique {
 * id : integer
   --
-  titre : string
-  type_fichier : string
+  format_fichier : varchar
+  taille : integer
   }
 
-Entity membre {
+Entity Emprunt {
 * id : integer
   --
-  nom : string
-  prenom : string
-  type_membre : string
-  }
-
-entity Emprunt {
-* id : integer
-  --
-  date_emprunt : date
-  date_retour_prevue : date
-  date_retour_reelle : date
+  date_emprunt : timestamp
+  date_retour_prevue : timestamp
+  date_retour_reelle : timestamp
+  etat : varchar
   }
 
 Entity Reservation {
 * id : integer
   --
-  date_reservation : date
+  date_reservation : timestamp
   }
 
 Entity Amende {
 * id : integer
   --
-  montant : decimal
-  date_amende : date
+  montant : integer
+  payee : boolean
   }
 
-membre "1" -- "*" Emprunt
-membre "1" -- "*" Reservation
-Emprunt "0..1" -- "1" Amende : genere
-Livre "1" -- "*" Emprunt
-Livre "1" -- "*" Reservation
+Entity Auteur {
+* id : integer
+  --
+  nom : varchar
+  prenom : varchar
+  }
+
+TypeMembre "1" -- "*" Membre : "posssede"
+
+Membre "1" -- "*" Emprunt : "effectue"
+Membre "1" -- "*" Reservation : "réserve"
+Membre "1" -- "*" Amende : "recoit"
+
+Document "1" -- "*" Emprunt
+Document "1" -- "*" Reservation : "réservé par"
+
+Document "1" -- "0..1" RessourceNumerique : "possede"
+
+Emprunt "1" -- "0..1" Amende : "génere"
+Document "*" -- "*" Auteur
 @enduml
+
+           # Modele physique
