@@ -103,17 +103,101 @@ Entity Auteur {
 
 TypeMembre "1" -- "*" Membre : "posssede"
 
-Membre "1" -- "*" Emprunt : "effectue"
-Membre "1" -- "*" Reservation : "réserve"
+Membre "1" -- "*" Emprunt : "fait"
+Membre "1" -- "*" Reservation : "fait"
 Membre "1" -- "*" Amende : "recoit"
-
 Document "1" -- "*" Emprunt
-Document "1" -- "*" Reservation : "réservé par"
-
+Document "1" -- "*" Reservation 
 Document "1" -- "0..1" RessourceNumerique : "possede"
-
 Emprunt "1" -- "0..1" Amende : "génere"
 Document "*" -- "*" Auteur
 @enduml
 
            # Modele physique
+@startuml
+!define TABLE(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define PK(x) <u>x</u>
+!define FK(x) <i>x</i>
+hide empty methods
+hide empty fields
+
+TABLE(Membre, "Membre") {
+PK(id) : integer
+nom : varchar
+prenom : varchar
+telephone : varchar
+date_inscription : date
+FK(type_membre_id) : integer
+}
+
+TABLE(TypeMembre, "TypeMembre") {
+PK(id) : integer
+duree_emprunt_jours : integer
+description : varchar
+}
+
+TABLE(Document, "Document") {
+PK(id) : integer
+titre : varchar
+type : varchar
+annee : integer
+}
+
+TABLE(RessourceNumerique, "RessourceNumerique") {
+PK(id) : integer
+format_fichier : varchar
+taille_ko : integer
+FK(document_id) : integer
+}
+
+TABLE(Emprunt, "Emprunt") {
+PK(id) : integer
+date_emprunt : timestamp
+date_retour_prevue : timestamp
+date_retour_reelle : timestamp
+etat : varchar
+FK(membre_id) : integer
+FK(document_id) : integer
+}
+
+TABLE(Reservation, "Reservation") {
+PK(id) : integer
+date_reservation : timestamp
+FK(membre_id) : integer
+FK(document_id) : integer
+}
+
+TABLE(Amende, "Amende") {
+PK(id) : integer
+montant : integer
+payee : boolean
+FK(membre_id) : integer
+FK(emprunt_id) : integer
+}
+
+TABLE(Auteur, "Auteur") {
+PK(id) : integer
+nom : varchar
+prenom : varchar
+}
+
+TABLE(DocumentAuteur, "DocumentAuteur") {
+PK(FK(document_id)) : integer
+PK(FK(auteur_id)) : integer
+}
+
+TypeMembre "1" -- "*" Membre : "possède"
+Membre "1" -- "*" Emprunt : "fait"
+Membre "1" -- "*" Reservation : "fait"
+Membre "1" -- "*" Amende : "reçoit"
+
+Document "1" -- "*" Emprunt
+Document "1" -- "*" Reservation 
+Document "1" -- "0..1" RessourceNumerique : "possède"
+Emprunt "1" -- "0..1" Amende : "génère"
+
+Document "*" -- "*" Auteur
+Document "1" -- "*" DocumentAuteur
+Auteur "1" -- "*" DocumentAuteur
+
+@enduml
