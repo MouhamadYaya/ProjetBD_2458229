@@ -1,8 +1,5 @@
 SET search_path TO public;
 
--- =====================
--- TypeMembre
--- =====================
 INSERT INTO TypeMembre (duree_emprunt_jours, descriptionn) VALUES
                                                                (7,  'Étudiant'),
                                                                (14, 'Enseignant'),
@@ -10,9 +7,6 @@ INSERT INTO TypeMembre (duree_emprunt_jours, descriptionn) VALUES
                                                                (30, 'Chercheur'),
                                                                (10, 'Visiteur');
 
--- =====================
--- Membre
--- =====================
 INSERT INTO Membre (nom, prenom, telephone, date_inscription, type_membree_id) VALUES
                                                                                    ('Tremblay', 'Jean', '514-111-1111', '2024-01-10', 1),
                                                                                    ('Gagnon', 'Marie', '514-222-2222', '2024-02-05', 2),
@@ -66,9 +60,11 @@ INSERT INTO DocumentAuteur (document_id, auteur_id) VALUES
                                                         (2, 3),
                                                         (3, 4),
                                                         (4, 5);
+
+-- test
 SELECT * FROM TypeMembre;
-TRUNCATE TABLE Emprunt CASCADE;
-TRUNCATE TABLE document RESTART IDENTITY CASCADE;
+DROP TABLE Emprunt CASCADE;
+
 
 
 

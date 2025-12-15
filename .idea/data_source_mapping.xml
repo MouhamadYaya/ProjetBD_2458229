@@ -2,5 +2,6 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/nombd_insert.sql" value="c4fc68d8-fdde-4abf-a064-4d98c3d60db9" />
+    <file url="file://$PROJECT_DIR$/nombd_select.sql" value="c4fc68d8-fdde-4abf-a064-4d98c3d60db9" />
   </component>
 </project>

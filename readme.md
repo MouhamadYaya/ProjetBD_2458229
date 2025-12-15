@@ -2,7 +2,7 @@
 
 ## Description du projet
 ce système permettra de gérer la bibliothèque. 
-il pourras tracker tous les livres, magazines et fichiers numériques de la collection,
+il pourras tracker tous les livres et fichiers numériques de la collection,
 savoir qui emprunte quoi, et gérer les retards avec les amendes qui vont avec.
 
 ### Gestion des documents
@@ -26,8 +26,10 @@ savoir qui emprunte quoi, et gérer les retards avec les amendes qui vont avec.
 - Suivre qui doit combien
 
 ### Statistiques
-- Voir quels sont les livres les plus populaires
-- Savoir combien de livres sont empruntés en ce moment
+- Liste des membres et leur historique d'emprunts
+- Suivi des emprunts en cours et en retard
+- Identifier les livres les plus empruntés avec leurs auteurs
+- Identification des membres avec amendes supérieures à un seuil
 
 ## Les principales tables de la base de données
 - **TypeMembre** : Étudiant ou professeur (avec durée d'emprunt différente)
