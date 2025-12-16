@@ -1,4 +1,4 @@
-SET search_path TO public;
+SET search_path TO projet_BD;
 
 INSERT INTO TypeMembre (duree_emprunt_jours, descriptionn) VALUES
                                                                (7,  'Étudiant'),

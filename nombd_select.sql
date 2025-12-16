@@ -1,4 +1,3 @@
-
 --1 Liste de tous les membre
 SELECT nom, prenom, telephone
 FROM Membre
@@ -21,7 +20,7 @@ FROM Amende a
           JOIN Membre m ON a.membre_id = m.id
 WHERE a.payee = FALSE;
 
--- 5. Liste des ressources numériques avec format et taille
+-- 5 Liste des ressources numériques avec format et taille
 SELECT d.titre, rn.format_fichier, rn.taille_ko
 FROM RessourceNumerique rn
           JOIN Document d ON rn.document_id = d.id
@@ -48,12 +47,12 @@ GROUP BY m.nom, m.prenom
 HAVING SUM(a.montant) > 15 ;
 
 -- 9 Documents avec leurs auteurs et nombre d'emprunts
-SELECT d.titre, a.nom AS auteur_nom, a.prenom AS auteur_prenom, COUNT(e.id) AS nbre
+SELECT d.titre, a.nom AS auteur, COUNT(e.id) AS nbre
 FROM Document d
          JOIN DocumentAuteur da ON d.id = da.document_id
          JOIN Auteur a ON da.auteur_id = a.id
          LEFT JOIN Emprunt e ON d.id = e.document_id
-GROUP BY d.titre, a.nom, a.prenom;
+GROUP BY d.titre, a.nom;
 
 -- 10 Membres avec emprunts en retard et leurs amendes
 SELECT m.nom, m.prenom, COUNT(e.id) AS emprunts_en_retard, SUM(a.montant) AS amendes
